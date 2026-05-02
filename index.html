@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thank You, Cloudy 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --blush: #f9d4df;
+      --rose: #e8a0b4;
+      --deep-rose: #c4607a;
+      --petal: #fce8ef;
+      --fog: #fdf4f7;
+      --ink: #3a1a24;
+      --muted: #b07080;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background-color: var(--fog);
+      font-family: 'Raleway', sans-serif;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: default;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0.5;
+    }
+
+    /* Soft radial glow */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(232, 160, 180, 0.25) 0%, transparent 70%),
+                  radial-gradient(ellipse at 20% 80%, rgba(249, 212, 223, 0.3) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Floating petals background */
+    .petals-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      width: 6px;
+      height: 10px;
+      background: var(--rose);
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      animation: floatPetal linear infinite;
+    }
+
+    @keyframes floatPetal {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.4; }
+      90%  { opacity: 0.2; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Main card */
+    .card {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      padding: 4rem 5rem;
+      max-width: 640px;
+      width: 90%;
+      background: rgba(255,255,255, 0.55);
+      border: 1px solid rgba(196, 96, 122, 0.15);
+      border-radius: 2px;
+      backdrop-filter: blur(14px);
+      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 200;
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--deep-rose);
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.8rem, 7vw, 4.2rem);
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--deep-rose);
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--rose), transparent);
+      margin: 1.6rem auto;
+      opacity: 0;
+      animation: fadeUp 1s 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    .message {
+      font-size: 0.9rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 360px;
+      margin: 0 auto 0.8rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.85s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    .skin-name {
+      display: inline-block;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--deep-rose);
+      letter-spacing: 0.04em;
+      margin-bottom: 2.4rem;
+      opacity: 0;
+      animation: fadeUp 1s 1s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    /* Button */
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 2.2rem;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--fog);
+      background: var(--deep-rose);
+      border: none;
+      border-radius: 1px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease, transform 0.2s ease;
+      opacity: 0;
+      animation: fadeUp 1s 1.15s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.12);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .btn:hover { background: #b5566e; transform: translateY(-1px); }
+    .btn:hover::after { opacity: 1; }
+    .btn:active { transform: translateY(0); }
+
+    /* Thank you flood overlay */
+    #flood {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      overflow: hidden;
+      background: linear-gradient(135deg, #fce8ef 0%, #f9d4df 50%, #f0b8cc 100%);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    #flood.active {
+      display: flex;
+      animation: floodIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    @keyframes floodIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .flood-text-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: 0;
+      pointer-events: none;
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .flood-word {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      color: var(--deep-rose);
+      opacity: 0;
+      padding: 0.1em 0.25em;
+      white-space: nowrap;
+      animation: wordAppear 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    @keyframes wordAppear {
+      from { opacity: 0; transform: translateY(6px) scale(0.95); }
+      to   { opacity: 0.75; transform: translateY(0) scale(1); }
+    }
+
+    .flood-center {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      animation: fadeUp 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) forwards;
+      opacity: 0;
+    }
+
+    .flood-big {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(3rem, 10vw, 7rem);
+      line-height: 1;
+      color: var(--ink);
+    }
+
+    .flood-big em { color: var(--deep-rose); font-style: italic; }
+
+    .flood-sub {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 1rem;
+    }
+
+    .flood-hint {
+      position: absolute;
+      bottom: 2rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--rose);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating petals -->
+  <div class="petals-container" id="petals"></div>
+
+  <!-- Main card -->
+  <div class="card">
+    <p class="eyebrow">A small token of gratitude</p>
+    <h1>Thank you,<br/><em>Cloudy</em> 🌸</h1>
+    <div class="divider"></div>
+    <p class="message">
+      You didn't have to, but you did —<br/>
+      and it genuinely meant the world.
+    </p>
+    <span class="skin-name">✦ Kuronami Bundle ✦</span>
+    <br/>
+    <button class="btn" onclick="triggerFlood()">Send my gratitude →</button>
+  </div>
+
+  <!-- Flood overlay -->
+  <div id="flood" onclick="closeFlood()">
+    <div class="flood-text-wrap" id="floodWords"></div>
+    <div class="flood-center">
+      <p class="flood-big">Thank you<br/><em>Big C</em> 🌸</p>
+      <p class="flood-sub">forever grateful · cloudy · kuronami bundle</p>
+    </div>
+    <span class="flood-hint">tap anywhere to close</span>
+  </div>
+
+  <script>
+    // Generate floating petals
+    const petalContainer = document.getElementById('petals');
+    for (let i = 0; i < 22; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (8 + Math.random() * 12) + 's';
+      p.style.animationDelay = (Math.random() * 15) + 's';
+      p.style.width = (4 + Math.random() * 6) + 'px';
+      p.style.height = (6 + Math.random() * 8) + 'px';
+      p.style.opacity = 0;
+      const hue = 330 + Math.random() * 20;
+      p.style.background = `hsl(${hue}, 65%, 80%)`;
+      petalContainer.appendChild(p);
+    }
+
+    function triggerFlood() {
+      const flood = document.getElementById('flood');
+      const wordsContainer = document.getElementById('floodWords');
+      wordsContainer.innerHTML = '';
+
+      flood.classList.add('active');
+
+      const phrase = 'Thank you Big C ';
+      const totalWords = 200;
+      for (let i = 0; i < totalWords; i++) {
+        const span = document.createElement('span');
+        span.className = 'flood-word';
+        span.textContent = phrase.trim().split(' ').map((w, idx) => {
+          // slight variation in which word shows
+          return w;
+        }).join(' ');
+        span.textContent = ['Thank you Big C', 'Thank you', 'Big C', 'Thank you Big C ♡'][i % 4];
+        span.style.animationDelay = (i * 18) + 'ms';
+        // vary size slightly for texture
+        const scale = 0.75 + Math.random() * 0.5;
+        span.style.fontSize = `${scale * 1.35}rem`;
+        span.style.opacity = 0;
+        wordsContainer.appendChild(span);
+      }
+    }
+
+    function closeFlood() {
+      const flood = document.getElementById('flood');
+      flood.style.transition = 'opacity 0.4s ease';
+      flood.style.opacity = '0';
+      setTimeout(() => {
+        flood.classList.remove('active');
+        flood.style.opacity = '';
+        flood.style.transition = '';
+      }, 400);
+    }
+  </script>
+</body>
+</html>
